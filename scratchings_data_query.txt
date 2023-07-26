@@ -1,0 +1,11 @@
+SELECT ro.MARKET_ID
+    ,ro.RUNNER_NAME
+    ,ro.REMOVAL_DATE
+    ,arm.RACING_TYPE
+    ,arm.settled_datetime 
+FROM exchange.analytical.h_runner_outcome            ro 
+    INNER JOIN exchange.analytical.dim_anz_racing_market arm on arm.win_market_id = ro.market_id
+WHERE ro.runner_status = 'REMOVED'
+   and arm.win_market_id = arm.market_id
+and arm.settled_datetime > TO_DATE('20230710','yyyymmdd') and ro.sport_id in (7, 4339) 
+ORDER BY arm.settled_datetime DESC;
